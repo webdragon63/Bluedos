@@ -17,7 +17,7 @@ $ sudo apt update
 $ sudo apt install python3
 $ sudo git clone https://github.com/webdragon63/Bluedos.git
 $ cd Bluedos
-$ python3 bluedos.py
+$ python3 Bluedos.py
 ```
 
 ## Note
