@@ -86,7 +86,7 @@ def menu():
 
 def logo():
     print("\t\t\t\t\t\t+-------------------------------+")
-    print("\t\t\t\t\t\t|-----╔╗ ╦  ╦ ╦╔═╗╦═╗╔=╗╔═╗-----|")
+    print("\t\t\t\t\t\t|-----╔╗ ╦  ╦ ╦╔═╗╦═╗╔═╗╔═╗-----|")
     print("\t\t\t\t\t\t|-----╠╩╗║  ║ ║║╣ ║ ║║ ║╚═╗-----|")
     print("\t\t\t\t\t\t|-----╚═╝╩═╝╚═╝╚═╝╩═╝╚═╝╚═╝-----|")
     print("\t\t\t\t\t\t|Bluetooth Deauthentication Tool|")
