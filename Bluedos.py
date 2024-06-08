@@ -79,19 +79,20 @@ def scan_attack():
 
 def menu():
     print('')
-    print("\t|     |+------------------+|     ")
-    print("\t|---->||-Choose an option-||     ")
-    print("\t      |+------------------+|     ")
+    print("\t\t\t      |+------------------+|     ")
+    print("\t\t\t      ||-Choose an option-||     ")
+    print("\t\t\t      |+------------------+|     ")
+    
     print("|-->1. Scan and attack")
     print("|-->2. Quit")
 
 def logo():
-    print("\t|+-------------------------------+|")
-    print("\t||-----╔╗ ╦  ╦ ╦╔═╗╦═╗╔═╗╔═╗-----||")
-    print("\t||-----╠╩╗║  ║ ║║╣ ║ ║║ ║╚═╗-----||")
-    print("\t||-----╚═╝╩═╝╚═╝╚═╝╩═╝╚═╝╚═╝-----||")
-    print("\t||Bluetooth Deauthentication Tool||")
-    print("\t|+-------------------------------+|")
+    print("\t\t\t|+-------------------------------+|")
+    print("\t\t\t||-----╔╗ ╦  ╦ ╦╔═╗╦═╗╔═╗╔═╗-----||")
+    print("\t\t\t||-----╠╩╗║  ║ ║║╣ ║ ║║ ║╚═╗-----||")
+    print("\t\t\t||-----╚═╝╩═╝╚═╝╚═╝╩═╝╚═╝╚═╝-----||")
+    print("\t\t\t||Bluetooth Deauthentication Tool||")
+    print("\t\t\t|+-------------------------------+|")
 
 
 if __name__ == '__main__':
