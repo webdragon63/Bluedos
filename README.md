@@ -23,10 +23,6 @@ $ cd Bluedos
 $ sudo python3 Bluedos.py
 ```
 
-## Note
-
-This script is designed to work only on Linux systems.You must have "l2ping" and "hcitool" utilities on your Linux machine (they are installed by default on Kali Linux).
-
 ## Tested on
 
 Kali Linux as attacker, and Xiaomi Portable Bluetooth Speaker as target, 
