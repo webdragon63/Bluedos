@@ -17,9 +17,9 @@ sudo apt update
 sudo apt install python3
 sudo apt install -y libbluetooth-dev
 sudo git clone https://github.com/webdragon63/Bluedos.git
+cd Bluedos
 sudo make
 sudo make install
-cd Bluedos
 sudo python3 Bluedos.py
 ```
 
