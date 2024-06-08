@@ -15,9 +15,12 @@ This project was created for educational purposes and personal use only.
 ```shell
 $ sudo apt update
 $ sudo apt install python3
+$ sudo apt install -y libbluetooth-dev
 $ sudo git clone https://github.com/webdragon63/Bluedos.git
+$ sudo make
+$ sudo make install
 $ cd Bluedos
-$ python3 Bluedos.py
+$ sudo python3 Bluedos.py
 ```
 
 ## Note
